@@ -33,8 +33,8 @@ RUN \
   && chown -R weblate:weblate /home/weblate \
   && chmod 700 /home/weblate/.ssh \
   && install -d -o weblate -g weblate -m 755 "/usr/local/lib/python${PYVERSION}/site-packages/data-test" "/usr/local/lib/python${PYVERSION}/site-packages/test-images" \
-  && install -d -o weblate -g weblate -m 755 /app/data \
-  && install -d -o weblate -g weblate -m 755 /app/cache
+  && install -d -o weblate -g weblate -m 755 /weblate/app/data \
+  && install -d -o weblate -g weblate -m 755 /weblate/app/cache
 
 # Configure utf-8 locales to make sure Python
 # correctly handles unicode filenames, configure settings
@@ -178,8 +178,8 @@ RUN rm -f /etc/localtime /etc/timezone \
   && ln -s /tmp/localtime /etc/localtime \
   && cp /usr/share/zoneinfo/Etc/UTC /tmp/localtime \
   && mkdir /tmp/nginx \
-  && chgrp -R 0 /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /tmp/localtime /tmp/nginx /etc/supervisor/conf.d \
-  && chmod -R 770 /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home /home/weblate /tmp/localtime /tmp/nginx /etc/supervisor/conf.d \
+  && chgrp -R 0 /var/log/nginx/ /var/lib/nginx /weblate/app/data /weblate/app/cache /run /home/weblate /tmp/localtime /tmp/nginx /etc/supervisor/conf.d \
+  && chmod -R 770 /var/log/nginx/ /var/lib/nginx /weblate/app/data /weblate/app/cache /run /home /home/weblate /tmp/localtime /tmp/nginx /etc/supervisor/conf.d \
   && rm -f /etc/nginx/sites-available/default \
   && ln -s /tmp/nginx/weblate-site.conf /etc/nginx/sites-available/default \
   && rm -f /var/log/nginx/access.log /var/log/nginx/error.log \
@@ -190,11 +190,11 @@ RUN rm -f /etc/localtime /etc/timezone \
 
 # Search path for custom modules
 RUN \
-    echo "/app/data/python" > "/usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth" && \
-    mkdir -p /app/data/python/customize && \
-    touch /app/data/python/customize/__init__.py && \
-    touch /app/data/python/customize/models.py && \
-    chown -R weblate:weblate /app/data/python
+    echo "/weblate/app/data/python" > "/usr/local/lib/python${PYVERSION}/site-packages/weblate-docker.pth" && \
+    mkdir -p /weblate/app/data/python/customize && \
+    touch /weblate/app/data/python/customize/__init__.py && \
+    touch /weblate/app/data/python/customize/models.py && \
+    chown -R weblate:weblate /weblate/app/data/python
 
 # Entrypoint
 COPY --chmod=a+rx start health_check /app/bin/

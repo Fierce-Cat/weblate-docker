@@ -228,6 +228,7 @@ if [ "$1" = "runserver" ] ; then
 
     # uswgi dir
     mkdir -p /run/gunicorn/app/weblate
+    chmod -R 770 /run/gunicorn/app/weblate
 
     # Celery pid, remove possible stale PID file
     mkdir -p /run/celery

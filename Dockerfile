@@ -200,10 +200,10 @@ RUN \
 COPY --chmod=a+rx start health_check /app/bin/
 
 EXPOSE 8080
-VOLUME /app/data
-VOLUME /app/cache
-VOLUME /tmp
-VOLUME /run
+#VOLUME /app/data
+#VOLUME /app/cache
+#VOLUME /tmp
+#VOLUME /run
 
 # Numerical value is needed for OpenShift S2I, see
 # https://docs.openshift.com/container-platform/latest/openshift_images/create-images.html
